@@ -12,7 +12,7 @@ class PomodoroApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Pomodoro 25+5',
+      title: 'joy Pomodoro',
       theme: ThemeData.dark(),
       home: const PomodoroScreen(),
     );
