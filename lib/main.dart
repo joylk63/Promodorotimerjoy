@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(const PomodoroApp());
@@ -28,10 +27,10 @@ class PomodoroScreen extends StatefulWidget {
 }
 
 class _PomodoroScreenState extends State<PomodoroScreen> {
-  // false = 25+5 min mode, true = 50+10 min mode
+  // false = ২৫+৫ মিনিট মোড, true = ৫০+১০ মিনিট মোড
   bool _is50MinMode = false;
 
-  // Work and Break durations in seconds
+  // বর্তমান মোডের ওয়ার্ক ও ব্রেক টাইম (সেকেন্ডে)
   int get workTimeSeconds => (_is50MinMode ? 50 : 25) * 60;
   int get breakTimeSeconds => (_is50MinMode ? 10 : 5) * 60;
 
@@ -40,34 +39,13 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   bool _isWorkTime = true;
   Timer? _timer;
 
-  // Audio player instance
-  final AudioPlayer _audioPlayer = AudioPlayer();
-
   @override
   void initState() {
     super.initState();
     _timeLeft = workTimeSeconds;
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _audioPlayer.dispose();
-    super.dispose();
-  }
-
-  // Play beep sound
-  void _playBeepSound() async {
-    try {
-      await _audioPlayer.play(
-        UrlSource('https://actions.google.com/sounds/v1/alarms/beep_short.ogg'),
-      );
-    } catch (_) {
-      // Handle audio errors gracefully if offline
-    }
-  }
-
-  // Toggle between 25+5 and 50+10 modes
+  // মোড পরিবর্তনের ফাংশন (২৫+৫ ↔ ৫০+১০)
   void _toggleMode() {
     _timer?.cancel();
     setState(() {
@@ -87,10 +65,6 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
         if (_timeLeft > 0) {
           _timeLeft--;
         } else {
-          // Play beep sound when timer hits zero
-          _playBeepSound();
-
-          // Switch between Work and Break session
           _isWorkTime = !_isWorkTime;
           _timeLeft = _isWorkTime ? workTimeSeconds : breakTimeSeconds;
         }
@@ -129,7 +103,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 1. Mode Switch Button
+            // ১. মোড পরিবর্তন করার বাটন (উপরে থাকবে)
             GestureDetector(
               onTap: _toggleMode,
               child: Container(
@@ -145,7 +119,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                     const Icon(Icons.swap_horiz, color: Colors.blueAccent),
                     const SizedBox(width: 8),
                     Text(
-                      _is50MinMode ? 'Mode: 50+10 min (Switch)' : 'Mode: 25+5 min (Switch)',
+                      _is50MinMode ? 'মোড: ৫০+১০ মিনিট (বদলান)' : 'মোড: ২৫+৫ মিনিট (বদলান)',
                       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -154,7 +128,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
             ),
             const SizedBox(height: 35),
 
-            // 2. Work / Break Status Tag
+            // ২. কাজের সময় / বিরতির সময় ট্যাগ
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               decoration: BoxDecoration(
@@ -162,13 +136,13 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                _isWorkTime ? 'Work Session' : 'Break Time',
+                _isWorkTime ? 'কাজ করার সময় (Work)' : 'বিরতির সময় (Break)',
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 30),
 
-            // 3. Main Timer Text (Tapping switches mode)
+            // ৩. বড় টাইমার টেক্সট (এটি চাপ দিলেও মোড চেঞ্জ হবে)
             GestureDetector(
               onTap: _toggleMode,
               child: Text(
@@ -178,12 +152,12 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              '💡 Tap timer or mode button to switch 25m / 50m',
+              '💡 টাইমারের ওপর ট্যাপ করে ২৫/৫০ মিনিট সুইচ করুন',
               style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
             ),
             const SizedBox(height: 40),
 
-            // 4. Control Buttons (Start / Pause / Reset)
+            // ৪. কন্ট্রোল বাটন (স্টার্ট/পজ/রিসেট)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
