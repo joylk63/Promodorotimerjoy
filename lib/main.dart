@@ -1,5 +1,6 @@
-                import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 void main() {
   runApp(const PomodoroApp());
@@ -12,7 +13,7 @@ class PomodoroApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'JOY Pomodoro',
+      title: 'Pomodoro 25+5 / 50+10',
       theme: ThemeData.dark(),
       home: const PomodoroScreen(),
     );
@@ -65,6 +66,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
         if (_timeLeft > 0) {
           _timeLeft--;
         } else {
+          // Play beep sound when timer finishes
+          FlutterRingtonePlayer().playNotification();
+
+          // Switch between Work and Break session
           _isWorkTime = !_isWorkTime;
           _timeLeft = _isWorkTime ? workTimeSeconds : breakTimeSeconds;
         }
@@ -96,7 +101,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('JOY Pomodoro'),
+        title: const Text('Pomodoro Timer'),
         centerTitle: true,
       ),
       body: Center(
