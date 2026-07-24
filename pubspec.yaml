@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  # Package for playing notification/beep sound
-  flutter_ringtone_player: ^3.2.0
+  # Modern sound playing library
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
