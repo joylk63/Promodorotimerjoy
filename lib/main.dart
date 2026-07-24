@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(const PomodoroApp());
@@ -40,10 +40,31 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   bool _isWorkTime = true;
   Timer? _timer;
 
+  // Audio player instance
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
     _timeLeft = workTimeSeconds;
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  // Play beep sound
+  void _playBeepSound() async {
+    try {
+      await _audioPlayer.play(
+        UrlSource('https://actions.google.com/sounds/v1/alarms/beep_short.ogg'),
+      );
+    } catch (_) {
+      // Handle audio errors gracefully if offline
+    }
   }
 
   // Toggle between 25+5 and 50+10 modes
@@ -66,8 +87,8 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
         if (_timeLeft > 0) {
           _timeLeft--;
         } else {
-          // Play beep sound when timer finishes
-          FlutterRingtonePlayer().playNotification();
+          // Play beep sound when timer hits zero
+          _playBeepSound();
 
           // Switch between Work and Break session
           _isWorkTime = !_isWorkTime;
