@@ -1,5 +1,5 @@
 name: pomodoro_app
-description: "A simple 25+5 and 50+10 Pomodoro Timer App with Sound"
+description: "A simple 25+5 & 50+10 Pomodoro Timer App"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,8 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  # Modern sound playing library
-  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
