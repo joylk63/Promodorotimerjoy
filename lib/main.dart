@@ -27,8 +27,8 @@ class PomodoroScreen extends StatefulWidget {
 }
 
 class _PomodoroScreenState extends State<PomodoroScreen> {
-  static const int workTimeSeconds = 25 * 60; // ২৫ মিনিট
-  static const int breakTimeSeconds = 5 * 60;  // ৫ মিনিট
+  static const int workTimeSeconds = 60 * 60; // ২৫ মিনিট
+  static const int breakTimeSeconds = 10 * 60;  // ৫ মিনিট
 
   int _timeLeft = workTimeSeconds;
   bool _isRunning = false;
@@ -75,7 +75,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pomodoro 25+5 Timer'),
+        title: const Text('joy Pomodoro'),
         centerTitle: true,
       ),
       body: Center(
